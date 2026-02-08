@@ -1,14 +1,12 @@
 import requests
+
 from configuration import SERVICE_URL
-
-
-# from src.schemas.post import POST_SCHEMA
 from src.baseclasses.response import Response
-from src.pydantic_schemas.post import Post
+from src.schemas.user import User
 
 
-def test_getting_posts():
-    r = requests.get(url=SERVICE_URL)
-    response = Response(r)
+def test_getting_users_list(say_hello):
+    response = requests.get(SERVICE_URL)
+    test_object = Response(response)
+    test_object.assert_status_code(200).validate(User)
 
-    response.assert_status_code(200).validate(Post)
